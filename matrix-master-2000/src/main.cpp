@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include <Arduino_LED_Matrix.h>
 #include <WiFiS3.h>
+#include "tetris-wurfel.h"
+#include "finger.h"
+#include "wave.h"
+#include "wavehc.h"
 
 void setup_wifi();
 
@@ -9,24 +13,28 @@ const char* wifi_password = "";
 
 ArduinoLEDMatrix matrix;
 byte frame[8][12] = {
-  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+  { 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1 },
+  { 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0 },
+  { 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0 },
+  { 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0 },
+  { 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 };
 
 void setup() {
   Serial.begin(9600);
+  matrix.loadSequence(wave);
+  matrix.loadSequence(wavehc);
   matrix.begin();
-  setup_wifi();
+
+  matrix.play(true);
+  // setup_wifi();
 }
 
 void loop() {
-  matrix.renderBitmap(frame, 8, 12);
+  // matrix.renderBitmap(frame, 8, 12);
 }
 
 void setup_wifi() {
